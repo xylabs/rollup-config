@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "rootDir": ".",
+    "target": "ES6"
+  },
+  "exclude": ["src/**/*.spec.ts"],
+  "extends": "@xylabs/tsconfig",
+  "include": ["src"]
+}
