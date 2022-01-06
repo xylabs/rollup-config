@@ -5,7 +5,7 @@ import typescriptPlugin from '@rollup/plugin-typescript'
 import typescript from 'typescript'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getRollupConfig = (rollupThis: any, pkg: any) => {
+const getRollupConfig = (pkg: any) => {
   const deps = Object.keys(Object.assign({}, pkg.peerDependencies, pkg.dependencies))
 
   const BUILD_TARGET_MAGIC_STRING = '__BUILD_TARGET__'
@@ -44,7 +44,9 @@ const getRollupConfig = (rollupThis: any, pkg: any) => {
   function emitModulePackageFile() {
     return {
       generateBundle() {
-        rollupThis.emitFile({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const thisObj = this as any
+        thisObj.emitFile({
           fileName: 'package.json',
           source: '{"type":"module"}',
           type: 'asset',
