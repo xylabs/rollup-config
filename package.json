@@ -56,5 +56,5 @@
     "eslint-profile": "TIMING=1 eslint ./"
   },
   "sideEffects": false,
-  "version": "1.0.2"
+  "version": "1.0.3"
 }
