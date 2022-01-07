@@ -1,3 +1,4 @@
+import image from '@rollup/plugin-image'
 import json from '@rollup/plugin-json'
 import replace from '@rollup/plugin-replace'
 import strip from '@rollup/plugin-strip'
@@ -58,6 +59,7 @@ const getRollupConfig = (pkg: any) => {
 
   const getPlugIns = (outDir: string) => {
     return [
+      image(),
       json(),
       strip({
         functions: ['debugAssert.*'],
