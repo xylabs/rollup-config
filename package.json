@@ -14,23 +14,15 @@
     "@rollup/plugin-replace": "^3.0.1",
     "@rollup/plugin-strip": "^2.1.0",
     "@rollup/plugin-typescript": "^8.3.0",
-    "depcheck": "^1.4.2",
-    "eslint-plugin-sonarjs": "^0.10.0",
-    "npm-check-updates": "^12",
-    "npm-package-json-lint": "^5.4.2",
-    "npm-package-json-lint-config-default": "^3.0.0",
-    "rollup": "^2.63.0",
-    "ts-prune": "^0.10"
+    "rollup": "^2.63.0"
   },
   "description": "SDK Module Rollup Config",
   "devDependencies": {
-    "@types/node": "^17",
     "@xylabs/eslint-config": "^2.2.3",
     "@xylabs/ts-scripts": "^1.0.24",
     "@xylabs/tsconfig": "^1.0.8",
-    "eslint": "^8",
-    "eslint-import-resolver-typescript": "^2.5.0",
-    "prettier": "^2",
+    "eslint": "^8.6.0",
+    "prettier": "^2.5.1",
     "tslib": "^2.3.1",
     "typescript": "^4"
   },
