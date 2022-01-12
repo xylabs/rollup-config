@@ -5,8 +5,13 @@ import strip from '@rollup/plugin-strip'
 import typescriptPlugin from '@rollup/plugin-typescript'
 import typescript from 'typescript'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getRollupConfig = (pkg: any) => {
+interface Params {
+  pkg: Record<string, unknown>
+  browserIndex?: string
+  nodeIndex?: string
+}
+
+const getRollupConfig = ({ pkg, browserIndex = './src/index.ts', nodeIndex = './src/index.ts' }: Params) => {
   const deps = Object.keys(Object.assign({}, pkg.peerDependencies, pkg.dependencies))
 
   const BUILD_TARGET_MAGIC_STRING = '__BUILD_TARGET__'
@@ -75,7 +80,7 @@ const getRollupConfig = (pkg: any) => {
     {
       external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
       input: {
-        index: './src/index.ts',
+        index: browserIndex,
       },
       output: [{ dir: './dist/esm5', format: 'es', sourcemap: true }],
       plugins: [...getPlugIns('./dist/esm5'), replace(generateBuildTargetReplaceConfig('esm', 5))],
@@ -83,7 +88,7 @@ const getRollupConfig = (pkg: any) => {
     {
       external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
       input: {
-        index: './src/index.ts',
+        index: browserIndex,
       },
       output: {
         dir: './dist/esm2017',
@@ -98,7 +103,7 @@ const getRollupConfig = (pkg: any) => {
     {
       external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
       input: {
-        index: './src/index.ts',
+        index: nodeIndex,
       },
       output: [{ dir: './dist/node', format: 'cjs', sourcemap: true }],
       plugins: [...getPlugIns('./dist/node'), replace(generateBuildTargetReplaceConfig('cjs', 5))],
@@ -106,7 +111,7 @@ const getRollupConfig = (pkg: any) => {
     {
       external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
       input: {
-        index: './src/index.ts',
+        index: nodeIndex,
       },
       output: [{ dir: './dist/node-esm', format: 'es', sourcemap: true }],
       plugins: [
