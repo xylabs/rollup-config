@@ -14,14 +14,14 @@
     "@rollup/plugin-replace": "^3.0.1",
     "@rollup/plugin-strip": "^2.1.0",
     "@rollup/plugin-typescript": "^8.3.0",
-    "rollup": "^2.63.0"
+    "rollup": "^2.66.1"
   },
   "description": "SDK Module Rollup Config",
   "devDependencies": {
-    "@xylabs/eslint-config": "^2.2.3",
-    "@xylabs/ts-scripts": "^1.0.24",
-    "@xylabs/tsconfig": "^1.0.8",
-    "eslint": "^8.6.0",
+    "@xylabs/eslint-config": "^2.2.13",
+    "@xylabs/ts-scripts": "^1.0.33",
+    "@xylabs/tsconfig": "^1.0.9",
+    "eslint": "^8.7.0",
     "prettier": "^2.5.1",
     "tslib": "^2.3.1",
     "typescript": "^4"

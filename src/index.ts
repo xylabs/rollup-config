@@ -82,8 +82,16 @@ const getRollupConfig = ({ pkg, browserIndex = './src/index.ts', nodeIndex = './
       input: {
         index: browserIndex,
       },
-      output: [{ dir: './dist/esm5', format: 'es', sourcemap: true }],
-      plugins: [...getPlugIns('./dist/esm5'), replace(generateBuildTargetReplaceConfig('esm', 5))],
+      output: [{ dir: './dist/esm5', format: 'cjs', sourcemap: true }],
+      plugins: [...getPlugIns('./dist/esm5'), replace(generateBuildTargetReplaceConfig('cjs', 5))],
+    },
+    {
+      external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
+      input: {
+        index: browserIndex,
+      },
+      output: [{ dir: './dist/esm6', format: 'es', sourcemap: true }],
+      plugins: [...getPlugIns('./dist/esm6'), replace(generateBuildTargetReplaceConfig('esm', 6))],
     },
     {
       external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
