@@ -46,6 +46,8 @@
     "url": "https://github.com/xylabs/rollup-config.git"
   },
   "scripts": {
+    "build": "yarn compile",
+    "compile": "tsc -p tsconfig.build.json",
     "eslint-profile": "TIMING=1 eslint ./"
   },
   "sideEffects": false,
