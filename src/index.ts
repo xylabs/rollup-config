@@ -9,9 +9,15 @@ interface Params {
   pkg: Record<string, unknown>
   browserIndex?: string
   nodeIndex?: string
+  tsconfig?: string
 }
 
-const getRollupConfig = ({ pkg, browserIndex = './src/index.ts', nodeIndex = './src/index.ts' }: Params) => {
+const getRollupConfig = ({
+  pkg,
+  browserIndex = './src/index.ts',
+  nodeIndex = './src/index.ts',
+  tsconfig = 'tsconfig.build.json',
+}: Params) => {
   const deps = Object.keys(Object.assign({}, pkg.peerDependencies, pkg.dependencies))
 
   const BUILD_TARGET_MAGIC_STRING = '__BUILD_TARGET__'
@@ -71,6 +77,7 @@ const getRollupConfig = ({ pkg, browserIndex = './src/index.ts', nodeIndex = './
       }),
       typescriptPlugin({
         outDir,
+        tsconfig,
         typescript,
       }),
     ]
