@@ -14,17 +14,17 @@
     "@rollup/plugin-replace": "^3.0.1",
     "@rollup/plugin-strip": "^2.1.0",
     "@rollup/plugin-typescript": "^8.3.0",
-    "rollup": "^2.66.1"
+    "rollup": "^2.67.1"
   },
   "description": "SDK Module Rollup Config",
   "devDependencies": {
-    "@xylabs/eslint-config": "^2.2.14",
-    "@xylabs/ts-scripts": "^1.0.37",
-    "@xylabs/tsconfig": "^1.0.9",
+    "@xylabs/eslint-config": "^2.3.14",
+    "@xylabs/ts-scripts": "^1.0.43",
+    "@xylabs/tsconfig": "^1.0.12",
     "eslint": "^8.8.0",
     "prettier": "^2.5.1",
     "tslib": "^2.3.1",
-    "typescript": "^4"
+    "typescript": "^4.5.5"
   },
   "homepage": "https://xylabs.com",
   "keywords": [
@@ -37,7 +37,6 @@
   "license": "LGPL-3.0",
   "main": "dist/index.js",
   "name": "@xylabs/rollup-config",
-  "private": false,
   "publishConfig": {
     "access": "public"
   },
@@ -51,5 +50,6 @@
     "eslint-profile": "TIMING=1 eslint ./"
   },
   "sideEffects": false,
-  "version": "1.1.5"
+  "version": "1.1.5",
+  "packageManager": "yarn@3.1.1"
 }
