@@ -47,9 +47,10 @@
   "scripts": {
     "build": "yarn compile",
     "compile": "tsc -p tsconfig.build.json",
+    "deploy": "yarn version patch -i && yarn npm publish",
     "eslint-profile": "TIMING=1 eslint ./"
   },
   "sideEffects": false,
-  "version": "1.1.5",
+  "version": "1.1.6",
   "packageManager": "yarn@3.1.1"
 }
