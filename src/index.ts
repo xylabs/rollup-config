@@ -1,7 +1,6 @@
 import image from '@rollup/plugin-image'
 import json from '@rollup/plugin-json'
 import replace from '@rollup/plugin-replace'
-import strip from '@rollup/plugin-strip'
 import typescriptPlugin from '@rollup/plugin-typescript'
 import typescript from 'typescript'
 
@@ -70,16 +69,13 @@ const getRollupConfig = ({
 
   const getPlugIns = (outDir: string) => {
     return [
-      image(),
-      json(),
-      strip({
-        functions: ['debugAssert.*'],
-      }),
       typescriptPlugin({
         outDir,
         tsconfig,
         typescript,
       }),
+      image({ exclude: ['*.stories.*', '*.spec.*', '*.test.*'] }),
+      json({ exclude: ['*.stories.*', '*.spec.*', '*.test.*'] }),
     ]
   }
 
