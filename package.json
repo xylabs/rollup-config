@@ -11,20 +11,20 @@
   "dependencies": {
     "@rollup/plugin-image": "^2.1.1",
     "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-replace": "^3.1.0",
+    "@rollup/plugin-replace": "^4.0.0",
     "@rollup/plugin-strip": "^2.1.0",
     "@rollup/plugin-typescript": "^8.3.1",
-    "rollup": "^2.70.0",
+    "rollup": "^2.70.1",
     "tslib": "^2.3.1",
     "typescript": "^4.6.2"
   },
   "description": "SDK Module Rollup Config",
   "devDependencies": {
-    "@xylabs/eslint-config": "^2.3.18",
-    "@xylabs/ts-scripts": "^1.0.44",
+    "@xylabs/eslint-config": "^2.3.19",
+    "@xylabs/ts-scripts": "^1.0.48",
     "@xylabs/tsconfig": "^1.0.12",
-    "eslint": "^8.10.0",
-    "prettier": "^2.5.1"
+    "eslint": "^8.11.0",
+    "prettier": "^2.6.0"
   },
   "homepage": "https://xylabs.com",
   "keywords": [

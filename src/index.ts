@@ -9,6 +9,7 @@ interface Params {
   browserIndex?: string
   nodeIndex?: string
   tsconfig?: string
+  bundlePrefix?: string
 }
 
 const getRollupConfig = ({
@@ -16,6 +17,7 @@ const getRollupConfig = ({
   browserIndex = './src/index.ts',
   nodeIndex = './src/index.ts',
   tsconfig = 'tsconfig.build.json',
+  bundlePrefix = '',
 }: Params) => {
   const deps = Object.keys(Object.assign({}, pkg.peerDependencies, pkg.dependencies))
 
@@ -79,30 +81,34 @@ const getRollupConfig = ({
     ]
   }
 
+  const bundlePath = (name: string) => {
+    return `./dist/${bundlePrefix}${name}`
+  }
+
   const browserBuilds = [
     {
       external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
       input: {
         index: browserIndex,
       },
-      output: [{ dir: './dist/cjs5', format: 'cjs', sourcemap: true }],
-      plugins: [...getPlugIns('./dist/cjs5'), replace(generateBuildTargetReplaceConfig('cjs', 5))],
+      output: [{ dir: bundlePath('cjs5'), format: 'cjs', sourcemap: true }],
+      plugins: [...getPlugIns(bundlePath('cjs5')), replace(generateBuildTargetReplaceConfig('cjs', 5))],
     },
     {
       external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
       input: {
         index: browserIndex,
       },
-      output: [{ dir: './dist/esm5', format: 'es', sourcemap: true }],
-      plugins: [...getPlugIns('./dist/esm5'), replace(generateBuildTargetReplaceConfig('esm', 5))],
+      output: [{ dir: bundlePath('esm5'), format: 'es', sourcemap: true }],
+      plugins: [...getPlugIns(bundlePath('esm5')), replace(generateBuildTargetReplaceConfig('esm', 5))],
     },
     {
       external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
       input: {
         index: browserIndex,
       },
-      output: [{ dir: './dist/esm2015', format: 'es', sourcemap: true }],
-      plugins: [...getPlugIns('./dist/esm2015'), replace(generateBuildTargetReplaceConfig('esm', 2015))],
+      output: [{ dir: bundlePath('esm2015'), format: 'es', sourcemap: true }],
+      plugins: [...getPlugIns(bundlePath('esm2015')), replace(generateBuildTargetReplaceConfig('esm', 2015))],
     },
     {
       external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
@@ -110,11 +116,11 @@ const getRollupConfig = ({
         index: browserIndex,
       },
       output: {
-        dir: './dist/esm2017',
+        dir: bundlePath('esm2017'),
         format: 'es',
         sourcemap: true,
       },
-      plugins: [...getPlugIns('./dist/esm2017'), replace(generateBuildTargetReplaceConfig('esm', 2017))],
+      plugins: [...getPlugIns(bundlePath('esm2017')), replace(generateBuildTargetReplaceConfig('esm', 2017))],
     },
   ]
 
@@ -124,17 +130,17 @@ const getRollupConfig = ({
       input: {
         index: nodeIndex,
       },
-      output: [{ dir: './dist/node', format: 'cjs', sourcemap: true }],
-      plugins: [...getPlugIns('./dist/node'), replace(generateBuildTargetReplaceConfig('cjs', 5))],
+      output: [{ dir: bundlePath('node'), format: 'cjs', sourcemap: true }],
+      plugins: [...getPlugIns(bundlePath('node')), replace(generateBuildTargetReplaceConfig('cjs', 5))],
     },
     {
       external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
       input: {
         index: nodeIndex,
       },
-      output: [{ dir: './dist/node-esm', format: 'es', sourcemap: true }],
+      output: [{ dir: bundlePath('node-esm'), format: 'es', sourcemap: true }],
       plugins: [
-        ...getPlugIns('./dist/node-esm'),
+        ...getPlugIns(bundlePath('node-esm')),
         replace(generateBuildTargetReplaceConfig('esm', 2017)),
         emitModulePackageFile(),
       ],
