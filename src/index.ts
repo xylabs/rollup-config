@@ -1,3 +1,4 @@
+import commonjs from '@rollup/plugin-commonjs'
 import image from '@rollup/plugin-image'
 import json from '@rollup/plugin-json'
 import nodeResolvePlugin from '@rollup/plugin-node-resolve'
@@ -88,7 +89,7 @@ const getRollupConfig = ({
     return `./dist/${bundlePrefix}${name}`
   }
 
-  const optionalNodeCommonJsPlugIns = nodeResolve ? [nodeResolvePlugin()] : []
+  const optionalNodeCommonJsPlugIns = nodeResolve ? [nodeResolvePlugin(), commonjs()] : [commonjs()]
 
   const browserBuilds = [
     {
