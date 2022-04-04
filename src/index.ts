@@ -1,5 +1,6 @@
 import image from '@rollup/plugin-image'
 import json from '@rollup/plugin-json'
+import nodeResolvePlugin from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
 import typescriptPlugin from '@rollup/plugin-typescript'
 import typescript from 'typescript'
@@ -10,6 +11,7 @@ interface Params {
   nodeIndex?: string
   tsconfig?: string
   bundlePrefix?: string
+  nodeResolve?: boolean
 }
 
 const getRollupConfig = ({
@@ -18,6 +20,7 @@ const getRollupConfig = ({
   nodeIndex = './src/index.ts',
   tsconfig = 'tsconfig.build.json',
   bundlePrefix = '',
+  nodeResolve = false,
 }: Params) => {
   const deps = Object.keys(Object.assign({}, pkg.peerDependencies, pkg.dependencies))
 
@@ -85,6 +88,8 @@ const getRollupConfig = ({
     return `./dist/${bundlePrefix}${name}`
   }
 
+  const optionalNodeCommonJsPlugIns = nodeResolve ? [nodeResolvePlugin()] : []
+
   const browserBuilds = [
     {
       external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
@@ -131,7 +136,11 @@ const getRollupConfig = ({
         index: nodeIndex,
       },
       output: [{ dir: bundlePath('node'), format: 'cjs', sourcemap: true }],
-      plugins: [...getPlugIns(bundlePath('node')), replace(generateBuildTargetReplaceConfig('cjs', 5))],
+      plugins: [
+        ...optionalNodeCommonJsPlugIns,
+        ...getPlugIns(bundlePath('node')),
+        replace(generateBuildTargetReplaceConfig('cjs', 5)),
+      ],
     },
     {
       external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
