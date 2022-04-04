@@ -52,6 +52,6 @@
     "eslint-profile": "TIMING=1 eslint ./"
   },
   "sideEffects": false,
-  "version": "1.1.10",
+  "version": "1.1.11",
   "packageManager": "yarn@3.1.1"
 }
