@@ -140,8 +140,8 @@ const getRollupConfig = ({
       },
       output: [{ dir: bundlePath('node'), format: 'cjs', sourcemap: true }],
       plugins: [
-        ...optionalNodeCommonJsPlugIns,
         ...getPlugIns(bundlePath('node')),
+        ...optionalNodeCommonJsPlugIns,
         replace(generateBuildTargetReplaceConfig('cjs', 5)),
       ],
     },
