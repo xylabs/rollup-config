@@ -89,7 +89,9 @@ const getRollupConfig = ({
     return `./dist/${bundlePrefix}${name}`
   }
 
-  const optionalNodeCommonJsPlugIns = nodeResolve ? [nodeResolvePlugin(), commonjs()] : [commonjs()]
+  const optionalNodeCommonJsPlugIns = nodeResolve
+    ? [nodeResolvePlugin(), commonjs({ include: 'node_modules/**' })]
+    : [commonjs({})]
 
   const browserBuilds = [
     {
