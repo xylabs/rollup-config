@@ -53,6 +53,6 @@
     "eslint-profile": "TIMING=1 eslint ./"
   },
   "sideEffects": false,
-  "version": "1.1.13",
+  "version": "1.1.14",
   "packageManager": "yarn@3.1.1"
 }
