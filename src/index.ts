@@ -13,6 +13,8 @@ interface Params {
   tsconfig?: string
   bundlePrefix?: string
   nodeResolve?: boolean
+  additionalNodeExternals?: string[]
+  additionalBrowserExternals?: string[]
 }
 
 const getRollupConfig = ({
@@ -22,6 +24,8 @@ const getRollupConfig = ({
   tsconfig = 'tsconfig.build.json',
   bundlePrefix = '',
   nodeResolve = false,
+  additionalNodeExternals,
+  additionalBrowserExternals,
 }: Params) => {
   const deps = Object.keys(Object.assign({}, pkg.peerDependencies, pkg.dependencies))
 
@@ -89,13 +93,18 @@ const getRollupConfig = ({
     return `./dist/${bundlePrefix}${name}`
   }
 
+  const browserExternals = (id: string) =>
+    deps.some(
+      (dep) => id === dep || id.startsWith(`${dep}/`) || additionalBrowserExternals?.find((item) => item === id)
+    )
+
   const optionalNodeCommonJsPlugIns = nodeResolve
     ? [nodeResolvePlugin(), commonjs({ include: 'node_modules/**' })]
     : [commonjs({})]
 
   const browserBuilds = [
     {
-      external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
+      external: browserExternals,
       input: {
         index: browserIndex,
       },
@@ -103,7 +112,7 @@ const getRollupConfig = ({
       plugins: [...getPlugIns(bundlePath('cjs5')), replace(generateBuildTargetReplaceConfig('cjs', 5))],
     },
     {
-      external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
+      external: browserExternals,
       input: {
         index: browserIndex,
       },
@@ -111,7 +120,7 @@ const getRollupConfig = ({
       plugins: [...getPlugIns(bundlePath('esm5')), replace(generateBuildTargetReplaceConfig('esm', 5))],
     },
     {
-      external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
+      external: browserExternals,
       input: {
         index: browserIndex,
       },
@@ -119,7 +128,7 @@ const getRollupConfig = ({
       plugins: [...getPlugIns(bundlePath('esm2015')), replace(generateBuildTargetReplaceConfig('esm', 2015))],
     },
     {
-      external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
+      external: browserExternals,
       input: {
         index: browserIndex,
       },
@@ -132,9 +141,12 @@ const getRollupConfig = ({
     },
   ]
 
+  const nodeExternals = (id: string) =>
+    deps.some((dep) => id === dep || id.startsWith(`${dep}/`) || additionalNodeExternals?.find((item) => item === id))
+
   const nodeBuilds = [
     {
-      external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
+      external: nodeExternals,
       input: {
         index: nodeIndex,
       },
@@ -146,7 +158,7 @@ const getRollupConfig = ({
       ],
     },
     {
-      external: (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`)),
+      external: nodeExternals,
       input: {
         index: nodeIndex,
       },
