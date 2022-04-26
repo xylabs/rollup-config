@@ -6,6 +6,10 @@ import replace from '@rollup/plugin-replace'
 import typescriptPlugin from '@rollup/plugin-typescript'
 import typescript from 'typescript'
 
+type Output = 'cjs5' | 'esm5' | 'esm2015' | 'esm2017' | 'node' | 'node-esm'
+
+const findOutput = (output: Output, outputs: Output[]) => outputs.find((item) => item === output)
+
 interface Params {
   pkg: Record<string, unknown>
   browserIndex?: string
@@ -15,6 +19,7 @@ interface Params {
   nodeResolve?: boolean
   additionalNodeExternals?: string[]
   additionalBrowserExternals?: string[]
+  outputs?: Output[]
 }
 
 const getRollupConfig = ({
@@ -26,6 +31,7 @@ const getRollupConfig = ({
   nodeResolve = false,
   additionalNodeExternals,
   additionalBrowserExternals,
+  outputs = ['cjs5', 'esm5', 'esm2015', 'esm2017', 'node', 'node-esm'],
 }: Params) => {
   const deps = Object.keys(Object.assign({}, pkg.peerDependencies, pkg.dependencies))
 
@@ -108,6 +114,7 @@ const getRollupConfig = ({
       input: {
         index: browserIndex,
       },
+      name: 'cjs5',
       output: [{ dir: bundlePath('cjs5'), format: 'cjs', sourcemap: true }],
       plugins: [...getPlugIns(bundlePath('cjs5')), replace(generateBuildTargetReplaceConfig('cjs', 5))],
     },
@@ -116,6 +123,7 @@ const getRollupConfig = ({
       input: {
         index: browserIndex,
       },
+      name: 'esm5',
       output: [{ dir: bundlePath('esm5'), format: 'es', sourcemap: true }],
       plugins: [...getPlugIns(bundlePath('esm5')), replace(generateBuildTargetReplaceConfig('esm', 5))],
     },
@@ -124,6 +132,7 @@ const getRollupConfig = ({
       input: {
         index: browserIndex,
       },
+      name: 'esm2015',
       output: [{ dir: bundlePath('esm2015'), format: 'es', sourcemap: true }],
       plugins: [...getPlugIns(bundlePath('esm2015')), replace(generateBuildTargetReplaceConfig('esm', 2015))],
     },
@@ -132,6 +141,7 @@ const getRollupConfig = ({
       input: {
         index: browserIndex,
       },
+      name: 'esm2017',
       output: {
         dir: bundlePath('esm2017'),
         format: 'es',
@@ -139,7 +149,7 @@ const getRollupConfig = ({
       },
       plugins: [...getPlugIns(bundlePath('esm2017')), replace(generateBuildTargetReplaceConfig('esm', 2017))],
     },
-  ]
+  ].filter((item) => findOutput(item.name as Output, outputs ?? []))
 
   const nodeExternals = (id: string) =>
     deps.some((dep) => id === dep || id.startsWith(`${dep}/`) || additionalNodeExternals?.find((item) => item === id))
@@ -150,6 +160,7 @@ const getRollupConfig = ({
       input: {
         index: nodeIndex,
       },
+      name: 'node',
       output: [{ dir: bundlePath('node'), format: 'cjs', sourcemap: true }],
       plugins: [
         ...getPlugIns(bundlePath('node')),
@@ -162,6 +173,7 @@ const getRollupConfig = ({
       input: {
         index: nodeIndex,
       },
+      name: 'node-esm',
       output: [{ dir: bundlePath('node-esm'), format: 'es', sourcemap: true }],
       plugins: [
         ...getPlugIns(bundlePath('node-esm')),
@@ -169,7 +181,7 @@ const getRollupConfig = ({
         emitModulePackageFile(),
       ],
     },
-  ]
+  ].filter((item) => findOutput(item.name as Output, outputs ?? []))
 
   return [...browserBuilds, ...nodeBuilds]
 }
