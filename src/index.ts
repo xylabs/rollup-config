@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import commonjs from '@rollup/plugin-commonjs'
 import image from '@rollup/plugin-image'
 import json from '@rollup/plugin-json'
@@ -144,7 +145,9 @@ const getRollupConfig = ({
       },
       plugins: [...getPlugIns(bundlePath('esm2017')), replace(generateBuildTargetReplaceConfig('esm', 2017))],
     },
-  ].filter((item) => findOutput(item.name as Output, outputs ?? []))
+  ]
+    .filter((item) => findOutput(item.name as Output, outputs ?? []))
+    .map(({ name, ...item }) => item)
 
   const nodeExternals = (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`) || additionalNodeExternals?.find((item) => item === id))
 
@@ -167,7 +170,9 @@ const getRollupConfig = ({
       output: [{ dir: bundlePath('node-esm'), format: 'es', sourcemap: true }],
       plugins: [...getPlugIns(bundlePath('node-esm')), replace(generateBuildTargetReplaceConfig('esm', 2017)), emitModulePackageFile()],
     },
-  ].filter((item) => findOutput(item.name as Output, outputs ?? []))
+  ]
+    .filter((item) => findOutput(item.name as Output, outputs ?? []))
+    .map(({ name, ...item }) => item)
 
   return [...browserBuilds, ...nodeBuilds]
 }
