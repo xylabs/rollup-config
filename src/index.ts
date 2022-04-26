@@ -99,14 +99,9 @@ const getRollupConfig = ({
     return `./dist/${bundlePrefix}${name}`
   }
 
-  const browserExternals = (id: string) =>
-    deps.some(
-      (dep) => id === dep || id.startsWith(`${dep}/`) || additionalBrowserExternals?.find((item) => item === id)
-    )
+  const browserExternals = (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`) || additionalBrowserExternals?.find((item) => item === id))
 
-  const optionalNodeCommonJsPlugIns = nodeResolve
-    ? [nodeResolvePlugin(), commonjs({ include: 'node_modules/**' })]
-    : [commonjs({})]
+  const optionalNodeCommonJsPlugIns = nodeResolve ? [nodeResolvePlugin(), commonjs({ include: 'node_modules/**' })] : [commonjs({})]
 
   const browserBuilds = [
     {
@@ -151,8 +146,7 @@ const getRollupConfig = ({
     },
   ].filter((item) => findOutput(item.name as Output, outputs ?? []))
 
-  const nodeExternals = (id: string) =>
-    deps.some((dep) => id === dep || id.startsWith(`${dep}/`) || additionalNodeExternals?.find((item) => item === id))
+  const nodeExternals = (id: string) => deps.some((dep) => id === dep || id.startsWith(`${dep}/`) || additionalNodeExternals?.find((item) => item === id))
 
   const nodeBuilds = [
     {
@@ -162,11 +156,7 @@ const getRollupConfig = ({
       },
       name: 'node',
       output: [{ dir: bundlePath('node'), format: 'cjs', sourcemap: true }],
-      plugins: [
-        ...getPlugIns(bundlePath('node')),
-        ...optionalNodeCommonJsPlugIns,
-        replace(generateBuildTargetReplaceConfig('cjs', 5)),
-      ],
+      plugins: [...getPlugIns(bundlePath('node')), ...optionalNodeCommonJsPlugIns, replace(generateBuildTargetReplaceConfig('cjs', 5))],
     },
     {
       external: nodeExternals,
@@ -175,11 +165,7 @@ const getRollupConfig = ({
       },
       name: 'node-esm',
       output: [{ dir: bundlePath('node-esm'), format: 'es', sourcemap: true }],
-      plugins: [
-        ...getPlugIns(bundlePath('node-esm')),
-        replace(generateBuildTargetReplaceConfig('esm', 2017)),
-        emitModulePackageFile(),
-      ],
+      plugins: [...getPlugIns(bundlePath('node-esm')), replace(generateBuildTargetReplaceConfig('esm', 2017)), emitModulePackageFile()],
     },
   ].filter((item) => findOutput(item.name as Output, outputs ?? []))
 
