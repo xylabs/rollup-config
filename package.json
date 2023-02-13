@@ -23,7 +23,7 @@
   "description": "SDK Module Rollup Config",
   "devDependencies": {
     "@xylabs/eslint-config": "^2.3.22",
-    "@xylabs/ts-scripts": "^1.0.53",
+    "@xylabs/ts-scripts": "^2.14.11",
     "@xylabs/tsconfig": "^1.0.13",
     "eslint": "^8.14.0",
     "prettier": "^2.6.2"
